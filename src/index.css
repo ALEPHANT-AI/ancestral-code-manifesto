@@ -39,6 +39,40 @@
   }
 }
 
+/* PDF Print Optimizations */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  @page {
+    size: A4;
+    margin: 2cm 1.5cm;
+  }
+  
+  body {
+    background: var(--pure-black) !important;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .page-break-after {
+    page-break-after: always;
+  }
+  
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+  
+  .keep-together {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -52,30 +86,274 @@
     background: var(--pure-black);
   }
 
-  .manifesto-container {
+  /* PDF Document Structure */
+  .pdf-document {
     background: var(--pure-black);
     color: var(--soft-white);
+    max-width: 210mm;
+    margin: 0 auto;
   }
 
-  .minimal-section {
-    padding: 6rem 0;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  .pdf-page {
+    min-height: 297mm;
+    padding: 2cm 1.5cm;
+    position: relative;
+    background: var(--pure-black);
   }
 
-  .elegant-title {
+  .pdf-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 4rem 2rem;
+  }
+
+  .pdf-section {
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+  }
+
+  .pdf-chapter {
+    page-break-before: always;
+    padding-top: 3rem;
+  }
+
+  /* Typography Optimized for PDF */
+  .pdf-title-main {
     font-family: 'Playfair Display', serif;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 3.5rem;
+    line-height: 1.1;
     color: var(--elegant-gold);
     letter-spacing: -0.02em;
-    line-height: 1.2;
+    margin-bottom: 1rem;
   }
 
-  .sophisticated-text {
+  .pdf-title-section {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    color: var(--elegant-gold);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .pdf-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--fire-accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .pdf-body-text {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    color: var(--soft-white);
+    font-size: 1rem;
     line-height: 1.7;
-    letter-spacing: 0.01em;
+    color: var(--soft-white);
+    margin-bottom: 1.5rem;
+  }
+
+  .pdf-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--elegant-gold);
+    border-left: 3px solid var(--elegant-gold);
+    padding-left: 2rem;
+    margin: 2rem 0;
+    background: rgba(212, 175, 55, 0.05);
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    border-radius: 4px;
+  }
+
+  .pdf-chapter-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--gray-medium);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .pdf-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .pdf-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--soft-white);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .pdf-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--elegant-gold);
+    font-weight: bold;
+  }
+
+  /* Image Layout for PDF */
+  .pdf-image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+    page-break-inside: avoid;
+  }
+
+  .pdf-image-single {
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+    display: block;
+  }
+
+  .pdf-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: contrast(1.1) brightness(1.05);
+  }
+
+  .pdf-profile-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: start;
+    margin: 3rem 0;
+    page-break-inside: avoid;
+  }
+
+  .pdf-profile-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Timeline for PDF */
+  .pdf-timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 2rem 0;
+  }
+
+  .pdf-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--elegant-gold), transparent);
+  }
+
+  .pdf-timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    page-break-inside: avoid;
+  }
+
+  .pdf-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    background: var(--elegant-gold);
+    border-radius: 50%;
+  }
+
+  .pdf-timeline-title {
+    font-weight: 600;
+    color: var(--fire-accent);
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Card Layouts for PDF */
+  .pdf-card {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    page-break-inside: avoid;
+  }
+
+  .pdf-card::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--elegant-gold), transparent);
+    margin-bottom: 1.5rem;
+  }
+
+  .pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  /* Dividers */
+  .pdf-divider {
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--elegant-gold), transparent);
+    margin: 3rem auto;
+  }
+
+  /* Page Headers and Footers */
+  .pdf-header {
+    position: fixed;
+    top: 1cm;
+    left: 1.5cm;
+    right: 1.5cm;
+    font-size: 0.75rem;
+    color: var(--gray-medium);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    padding-bottom: 0.5rem;
+  }
+
+  .pdf-footer {
+    position: fixed;
+    bottom: 1cm;
+    left: 1.5cm;
+    right: 1.5cm;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray-medium);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    padding-top: 0.5rem;
+  }
+
+  /* Final optimizations */
+  .pdf-signature {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--gray-medium);
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
   }
 
   .fire-accent {
@@ -85,212 +363,5 @@
 
   .gold-accent {
     color: var(--elegant-gold);
-  }
-
-  .minimal-divider {
-    width: 100px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--elegant-gold), transparent);
-    margin: 3rem auto;
-  }
-
-  .hero-image {
-    position: relative;
-    overflow: hidden;
-    border-radius: 4px;
-  }
-
-  .hero-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      transparent 0%,
-      rgba(212, 175, 55, 0.1) 50%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
-
-  .quote-minimal {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--elegant-gold);
-    border-left: 2px solid var(--elegant-gold);
-    padding-left: 2rem;
-    margin: 3rem 0;
-    position: relative;
-  }
-
-  .quote-minimal::before {
-    content: '"';
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    font-size: 3rem;
-    color: var(--elegant-gold);
-    opacity: 0.3;
-  }
-
-  .pillar-card {
-    background: rgba(26, 26, 26, 0.8);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 8px;
-    padding: 3rem 2.5rem;
-    position: relative;
-    backdrop-filter: blur(10px);
-  }
-
-  .pillar-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--elegant-gold), transparent);
-  }
-
-  .campaign-section {
-    background: linear-gradient(
-      135deg,
-      var(--deep-black) 0%,
-      rgba(255, 107, 53, 0.05) 50%,
-      var(--deep-black) 100%
-    );
-    border-radius: 12px;
-    padding: 4rem 3rem;
-    margin: 4rem 0;
-  }
-
-  .image-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 4rem 0;
-  }
-
-  .gallery-image {
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    border-radius: 6px;
-    filter: grayscale(20%) contrast(1.1);
-    transition: all 0.3s ease;
-  }
-
-  .gallery-image:hover {
-    filter: grayscale(0%) contrast(1.2);
-    transform: scale(1.02);
-  }
-
-  .leadership-profile {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 4rem;
-    align-items: center;
-    margin: 6rem 0;
-  }
-
-  @media (max-width: 768px) {
-    .leadership-profile {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-  }
-
-  .profile-image {
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    border-radius: 8px;
-    filter: contrast(1.1) brightness(1.05);
-  }
-
-  .chapter-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--gray-medium);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .section-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-  }
-
-  .implementation-timeline {
-    position: relative;
-    padding-left: 2rem;
-  }
-
-  .implementation-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--elegant-gold), transparent);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 3rem;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -2.25rem;
-    top: 0.5rem;
-    width: 6px;
-    height: 6px;
-    background: var(--elegant-gold);
-    border-radius: 50%;
-  }
-
-  .list-elegant {
-    list-style: none;
-    padding: 0;
-  }
-
-  .list-elegant li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-    color: var(--soft-white);
-  }
-
-  .list-elegant li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--elegant-gold);
-    font-weight: bold;
-  }
-
-  .final-cta {
-    text-align: center;
-    padding: 6rem 0;
-    background: linear-gradient(
-      135deg,
-      var(--pure-black) 0%,
-      rgba(212, 175, 55, 0.03) 50%,
-      var(--pure-black) 100%
-    );
-  }
-
-  .signature-mark {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--gray-medium);
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 2rem;
   }
 }
